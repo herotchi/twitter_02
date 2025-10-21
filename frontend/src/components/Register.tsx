@@ -99,17 +99,15 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onGoLogin }) => 
                                     {success}
                                 </div>
                             )}
+
                             {error && (
-                                <div className="alert alert-danger">
-                                    {Array.isArray(error) ? (
-                                        <ul className="mb-0">
-                                            {error.map((msg, idx) => (
-                                                <li key={idx}>{msg}</li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="mb-0">{error}</p>
-                                    )}
+                                <div>
+                                    {Array.isArray(error)
+                                        ? error.map((msg, idx) => (
+                                            <div key={idx} className="alert alert-danger mb-2">{msg}</div>
+                                        ))
+                                        : <div className="alert alert-danger">{error}</div>
+                                    }
                                 </div>
                             )}
                             <div className="text-center mt-2">
