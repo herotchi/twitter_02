@@ -28,7 +28,7 @@ const App: React.FC = () => {
         fetchUser();
     }, []);
 
-    // 🔹 ローディング中：中央にスピナー表示
+    // ローディング中：中央にスピナー表示
     if (loading) {
         return (
             <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
