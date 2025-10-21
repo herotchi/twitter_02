@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "../lib/axios";
 import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
+import { Trash } from "lucide-react";
 
 type DashboardProps = {
     user: { id: number; name: string; email: string } | null;
@@ -80,6 +81,19 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         fetchTweets(nextPage);
     };
 
+    // ツイート削除
+    const handleDelete = async (id: number) => {
+        if (!window.confirm("このシャウトを削除しますか？")) return;
+
+        try {
+            await axios.delete(`/tweets/${id}`);
+            setTweets((prev) => prev.filter((tweet) => tweet.id !== id));
+        } catch (error) {
+            //console.error(error);
+            alert("削除に失敗しました。");
+        }
+    };
+
     const handleLogout = async () => {
         await axios.post("/auth/logout");
         await onLogout();
@@ -123,7 +137,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
                                         </div>
                                     )}
                                     <Button type="submit" variant="primary" className="mt-3 w-100">
-                                        叫ぶ
+                                        シャウト
                                     </Button>
                                 </Form>
                             </Card.Body>
@@ -132,6 +146,14 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
                         {/* ツイート一覧 */}
                         {tweets.map(tweet => (
                             <Card key={tweet.id} className="mb-2">
+                                <Button
+                                    variant="link"
+                                    className="position-absolute top-0 end-0 text-danger p-2"
+                                    onClick={() => handleDelete(tweet.id)}
+                                    title="削除"
+                                >
+                                    <Trash size={16} />
+                                </Button>
                                 <Card.Body>
                                     <Card.Text>{tweet.content}</Card.Text>
                                     <Card.Subtitle className="text-muted" style={{ fontSize: "0.8rem" }}>

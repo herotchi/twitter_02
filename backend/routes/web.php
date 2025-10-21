@@ -27,5 +27,6 @@ Route::middleware('web')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
         Route::get('/tweets', [TweetController::class, 'index']);
         Route::post('/tweets', [TweetController::class, 'store']);
+        Route::delete('/tweets/{id}', [TweetController::class, 'destroy']);
     });
 });

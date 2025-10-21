@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'auth/*', 'tweets'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'auth/*', 'tweets', 'tweets/*'],
 
     'allowed_methods' => explode(',',env('CORS_ALLOWED_METHODS', '*')),
 
