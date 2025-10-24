@@ -80,7 +80,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onGoLogin }) => 
                                         required
                                     />
                                 </Form.Group>
-                                <Form.Group className="mb-3" controlId="regsterName">
+                                <Form.Group className="mb-3" controlId="regsterPasswordConfirmation">
                                     <Form.Control
                                         type="password"
                                         placeholder="パスワード（確認）"
