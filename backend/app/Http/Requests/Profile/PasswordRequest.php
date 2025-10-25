@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Password;
 use App\Consts\AuthConsts;
 
-class RegisterRequest extends FormRequest
+class PasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,8 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        $passwordRegex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d-_]+$/';
-
         return [
             //
-            'name' => ['required', 'string', 'max:' . AuthConsts::NAME_LENGTH_MAX],
-            'email' => ['required', 'string', 'email', 'max:' . AuthConsts::EMAIL_LENGTH_MAX, 'unique:users'],
             'password' => [
                 'required', 
                 'string', 

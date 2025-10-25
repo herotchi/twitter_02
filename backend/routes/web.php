@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TweetController;
+use App\Http\Controllers\ProfileController;
 
 /*
 Route::prefix('auth')->name('auth.')->controller(AuthController::class)->group(function () {
@@ -28,5 +29,6 @@ Route::middleware('web')->group(function () {
         Route::get('/tweets', [TweetController::class, 'index']);
         Route::post('/tweets', [TweetController::class, 'store']);
         Route::delete('/tweets/{id}', [TweetController::class, 'destroy']);
+        Route::patch('/profile/update', [ProfileController::class, 'update']);
     });
 });
