@@ -4,6 +4,7 @@ import axios from "./lib/axios";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import Profile from "./components/Profile";
 import { Spinner } from "react-bootstrap";
 
 type User = { id: number; name: string; email: string } | null;
@@ -11,6 +12,7 @@ type User = { id: number; name: string; email: string } | null;
 const App: React.FC = () => {
     const [user, setUser] = useState<User>(null);
     const [showRegister, setShowRegister] = useState(false);
+    const [showProfileEdit, setProfileEdit] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const fetchUser = async () => {
@@ -59,7 +61,26 @@ const App: React.FC = () => {
         );
     }
 
-    return <Dashboard user={user} onLogout={() => fetchUser()} />;
+    if (showProfileEdit) {
+        return (
+            <Profile
+                user={user}
+                onLogout={() => fetchUser()}
+                onGoProfile={() => setProfileEdit(true)}
+                onGoDashboard={() => setProfileEdit(false)}
+                onProfileEditSuccess={() => fetchUser()}
+            />
+        );
+    }
+
+    return (
+        <Dashboard
+            user={user}
+            onLogout={() => fetchUser()}
+            onGoProfile={() => setProfileEdit(true)}
+            onGoDashboard={() => setProfileEdit(false)}
+        />
+    );
 };
 
 export default App;

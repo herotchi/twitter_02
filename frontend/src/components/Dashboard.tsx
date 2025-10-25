@@ -7,6 +7,8 @@ import { Trash } from "lucide-react";
 type DashboardProps = {
     user: { id: number; name: string; email: string } | null;
     onLogout: () => Promise<void>;
+    onGoProfile: () => void;
+    onGoDashboard: () => void;
 };
 
 type Tweet = {
@@ -16,7 +18,7 @@ type Tweet = {
     created_at: string;
 };
 
-const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
+const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onGoProfile, onGoDashboard }) => {
 
     const [tweets, setTweets] = useState<Tweet[]>([]);
     const [content, setContent] = useState("");
@@ -103,11 +105,18 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         <>
             <nav className="navbar navbar-expand-sm bg-body-tertiary bg-dark border-bottom border-bottom-dark mb-3" data-bs-theme="dark">
                 <div className="container-fluid">
-                    <span className="navbar-brand">ロバの耳</span>
+                    <Button variant="link" className="navbar-brand" onClick={onGoDashboard}>王様の耳はロバの耳</Button>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+                            <li className="nav-item">
+                                <Button variant="link" onClick={onGoProfile} className="nav-link">
+                                    {user?.name}
+                                </Button>
+                            </li>
+                        </ul>
                         <div className="ms-auto">
                             <button className="d-flex btn btn-outline-success" onClick={handleLogout}>ログアウト</button>
                         </div>
