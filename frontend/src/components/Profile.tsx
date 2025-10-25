@@ -14,6 +14,8 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDash
 
     const [name, setName] = useState(user?.name);
     const [email, setEmail] = useState(user?.email);
+    const [currentPasswordForProfile, setCurrentPasswordForProfile] = useState("");
+    const [currentPasswordForPassword, setCurrentPasswordForPassword] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [profileError, setProfileError] = useState<string | string[] | null>(null);
@@ -31,6 +33,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDash
             await axios.patch("/profile/update", {
                 name,
                 email,
+                currentPasswordForProfile,
             });
             setProfileSuccess("プロフィール変更に成功しました。🎉");
             await onProfileEditSuccess();
@@ -104,6 +107,15 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDash
                                             placeholder="メールアドレス"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="currentPasswordForProfile">
+                                        <Form.Control
+                                            type="password"
+                                            placeholder="現在のパスワード"
+                                            value={currentPasswordForProfile}
+                                            onChange={(e) => setCurrentPasswordForProfile(e.target.value)}
                                             required
                                         />
                                     </Form.Group>
