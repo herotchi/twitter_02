@@ -156,9 +156,10 @@ return [
     'url'                    => ':attributeは、有効なURL形式で指定してください。',
     'uuid'                   => ':attributeは、有効なUUIDである必要があります。',
     'attributes' => [
-        'content'   => '本文',
-        'name'      => 'ユーザー名',
-        'email'     => 'メールアドレス',
-        'password'  => 'パスワード',
+        'content'                   => '本文',
+        'name'                      => 'ユーザー名',
+        'email'                     => 'メールアドレス',
+        'password'                  => 'パスワード',
+        'currentPasswordForProfile' => '現在のパスワード'
     ],
 ];

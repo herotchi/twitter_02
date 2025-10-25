@@ -30,6 +30,7 @@ class EditRequest extends FormRequest
             //
             'name' => ['required', 'string', 'max:' . AuthConsts::NAME_LENGTH_MAX],
             'email' => ['required', 'string', 'email', 'max:' . AuthConsts::EMAIL_LENGTH_MAX/*, 'unique:users'*/,Rule::unique('users')->ignore(Auth::id())],
+            'currentPasswordForProfile' => ['required', 'string', 'current_password']
         ];
     }
 
