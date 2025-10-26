@@ -27,12 +27,9 @@ class PasswordRequest extends FormRequest
     {
         return [
             //
-            'password' => [
-                'required', 
-                'string', 
-                Password::defaults(),
-                'confirmed'
-            ],
+            'currentPasswordForPassword' => ['required', 'string', 'current_password'],
+            'password' => ['required', 'string', Password::defaults(), 'confirmed'],
+            //'passwordConfirmation' => ['required'],
         ];
     }
 
