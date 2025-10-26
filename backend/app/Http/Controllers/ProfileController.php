@@ -32,4 +32,25 @@ class ProfileController extends Controller
             'message' => 'プロフィール変更が完了しました。',
         ], 201);
     }
+
+
+    public function password(PasswordRequest $request)
+    {
+        $validated = $request->validated();
+        $user = Auth::user();
+
+        if (Hash::check($validated['currentPasswordForPassword'], $user->password)) {
+            // 一致しているので更新処理OK
+            $user = User::find(Auth::id());
+            $user->password = $validated['password'];
+            $user->save();
+        } else {
+            // パスワード不一致
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json([
+            'message' => 'パスワード変更が完了しました。',
+        ], 201);
+    }
 }

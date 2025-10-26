@@ -160,6 +160,7 @@ return [
         'name'                      => 'ユーザー名',
         'email'                     => 'メールアドレス',
         'password'                  => 'パスワード',
-        'currentPasswordForProfile' => '現在のパスワード'
+        'currentPasswordForProfile' => '現在のパスワード',
+        'currentPasswordForPassword' => '現在のパスワード',
     ],
 ];

@@ -8,9 +8,10 @@ type ProfileProps = {
     onGoProfile: () => void;
     onGoDashboard: () => void;
     onProfileEditSuccess: () => Promise<void>;
+    onPasswordEditSuccess: () => Promise<void>;
 };
 
-const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDashboard, onProfileEditSuccess }) => {
+const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDashboard, onProfileEditSuccess, onPasswordEditSuccess }) => {
 
     const [name, setName] = useState(user?.name);
     const [email, setEmail] = useState(user?.email);
@@ -38,7 +39,6 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDash
             setProfileSuccess("プロフィール変更に成功しました。🎉");
             await onProfileEditSuccess();
         } catch (error: any) {
-            console.log(error);
             const data = error.response?.data;
             if (data?.errors) {
                 // { email: [...], password: [...] } → ["メールアドレスは必須です。", "パスワードは必須です。"]
@@ -56,6 +56,31 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDash
         e.preventDefault();
         setPasswordError(null);
         setPasswordSuccess(null);
+
+        try {
+            //await axios.get("/sanctum/csrf-cookie");
+            await axios.patch("/profile/password", {
+                currentPasswordForPassword,
+                password,
+                password_confirmation: passwordConfirmation,
+            });
+            setPasswordSuccess("パスワード変更に成功しました。🎉");
+            await onPasswordEditSuccess();
+        } catch (error: any) {
+            console.log(error);
+            console.log(password);
+            console.log(passwordConfirmation);
+            const data = error.response?.data;
+            if (data?.errors) {
+                // { email: [...], password: [...] } → ["メールアドレスは必須です。", "パスワードは必須です。"]
+                const messages = (Object.values(data.errors) as string[][]).flat();
+                setPasswordError(messages);
+            } else if (data?.message) {
+                setPasswordError(data.message);
+            } else {
+                setPasswordError("パスワード変更に失敗しました。");
+            }
+        }
     }
 
     const handleLogout = async () => {
@@ -144,25 +169,34 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDash
                     </Col>
                 </Row>
 
-                <Row className="justify-content-center">
+                <Row className="justify-content-center mb-5">
                     <Col md={6}>
                         <Card className="mt-5 shadow-lg rounded-4">
                             <Card.Body>
                                 <Card.Title className="text-center mb-4">パスワード変更</Card.Title>
                                 <Form onSubmit={handlePasswordEdit} noValidate>
-                                    <Form.Group className="mb-3" controlId="regsterPassword">
+                                    <Form.Group className="mb-3" controlId="currentPasswordForPassword">
                                         <Form.Control
                                             type="password"
-                                            placeholder="パスワード"
+                                            placeholder="現在のパスワード"
+                                            value={currentPasswordForPassword}
+                                            onChange={(e) => setCurrentPasswordForPassword(e.target.value)}
+                                            required
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="password">
+                                        <Form.Control
+                                            type="password"
+                                            placeholder="新しいパスワード"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             required
                                         />
                                     </Form.Group>
-                                    <Form.Group className="mb-3" controlId="regsterPasswordConfirmation">
+                                    <Form.Group className="mb-3" controlId="passwordConfirmation">
                                         <Form.Control
                                             type="password"
-                                            placeholder="パスワード（確認）"
+                                            placeholder="新しいパスワード（確認）"
                                             value={passwordConfirmation}
                                             onChange={(e) => setPasswordConfirmation(e.target.value)}
                                             required
@@ -173,19 +207,19 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout, onGoProfile, onGoDash
                                         変更
                                     </Button>
                                 </Form>
-                                {profileSuccess && (
+                                {passwordSuccess && (
                                     <div className="alert alert-success mt-3 mb-0 text-center">
-                                        {profileSuccess}
+                                        {passwordSuccess}
                                     </div>
                                 )}
 
-                                {profileError && (
+                                {passwordError && (
                                     <div>
-                                        {Array.isArray(profileError)
-                                            ? profileError.map((msg, idx) => (
+                                        {Array.isArray(passwordError)
+                                            ? passwordError.map((msg, idx) => (
                                                 <div key={idx} className="alert alert-danger mb-2">{msg}</div>
                                             ))
-                                            : <div className="alert alert-danger">{profileError}</div>
+                                            : <div className="alert alert-danger">{passwordError}</div>
                                         }
                                     </div>
                                 )}

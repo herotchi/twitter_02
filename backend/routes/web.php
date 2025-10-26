@@ -30,5 +30,6 @@ Route::middleware('web')->group(function () {
         Route::post('/tweets', [TweetController::class, 'store']);
         Route::delete('/tweets/{id}', [TweetController::class, 'destroy']);
         Route::patch('/profile/update', [ProfileController::class, 'update']);
+        Route::patch('/profile/password', [ProfileController::class, 'password']);
     });
 });

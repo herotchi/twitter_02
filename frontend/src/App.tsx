@@ -69,6 +69,7 @@ const App: React.FC = () => {
                 onGoProfile={() => setProfileEdit(true)}
                 onGoDashboard={() => setProfileEdit(false)}
                 onProfileEditSuccess={() => fetchUser()}
+                onPasswordEditSuccess={() => fetchUser()}
             />
         );
     }
