@@ -19,7 +19,7 @@ Route::prefix('auth')->name('auth.')->controller(AuthController::class)->group(f
     });
 });
 */
-Route::middleware('web')->group(function () {
+/*Route::middleware('web')->group(function () {
     Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
 
@@ -32,4 +32,16 @@ Route::middleware('web')->group(function () {
         Route::patch('/profile/update', [ProfileController::class, 'update']);
         Route::patch('/profile/password', [ProfileController::class, 'password']);
     });
+});*/
+Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/auth/user', [AuthController::class, 'user'])->name('auth.user');
+    Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/tweets', [TweetController::class, 'index']);
+    Route::post('/tweets', [TweetController::class, 'store']);
+    Route::delete('/tweets/{id}', [TweetController::class, 'destroy']);
+    Route::patch('/profile/update', [ProfileController::class, 'update']);
+    Route::patch('/profile/password', [ProfileController::class, 'password']);
 });
